@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  labels:
+    app: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: ghcr.io/maciejwojs/k8s-example-backend:0.0.4
+        ports:
+        - containerPort: 3000
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: backend-secret
+              key: DATABASE_URL
+        - name: DEVELOPMENT
+          valueFrom:
+            configMapKeyRef:
+              name: backend-config
+              key: DEVELOPMENT
+        - name: PERFORM_DATABASE_MIGRATIONS
+          valueFrom:
+            configMapKeyRef:
+              name: backend-config
+              key: PERFORM_DATABASE_MIGRATIONS
+        - name: PERFORM_DATABASE_SEEDING
+          valueFrom:
+            configMapKeyRef:
+              name: backend-config
+              key: PERFORM_DATABASE_SEEDING
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+spec:
+  selector:
+    app: backend
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000

@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  labels:
+    app: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: ghcr.io/maciejwojs/k8s-example-frontend:0.0.3
+        ports:
+        - containerPort: 3000
+        env:
+        - name: NUXT_PUBLIC_BASE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: frontend-config
+              key: NUXT_PUBLIC_BASE_URL
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+spec:
+  type: NodePort
+  selector:
+    app: frontend
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+      nodePort: 30000
