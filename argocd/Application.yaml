@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: k8s-example
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/MaciejWojs/k8s-example-iac.git
+    targetRevision: HEAD
+    path: k8s-example
+    directory:  
+      exclude: |
+        *example-secret*.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: k8s-example
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
