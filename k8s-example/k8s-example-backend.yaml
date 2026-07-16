@@ -15,32 +15,31 @@ spec:
         app: backend
     spec:
       containers:
-      - name: backend
-        image: ghcr.io/maciejwojs/k8s-example-backend:0.0.8
-        ports:
-        - containerPort: 3000
-        env:
-        - name: DATABASE_URL
-          valueFrom:
-            secretKeyRef:
-              name: backend-secret
-              key: DATABASE_URL
-        - name: DEVELOPMENT
-          valueFrom:
-            configMapKeyRef:
-              name: backend-config
-              key: DEVELOPMENT
-        - name: PERFORM_DATABASE_MIGRATIONS
-          valueFrom:
-            configMapKeyRef:
-              name: backend-config
-              key: PERFORM_DATABASE_MIGRATIONS
-        - name: PERFORM_DATABASE_SEEDING
-          valueFrom:
-            configMapKeyRef:
-              name: backend-config
-              key: PERFORM_DATABASE_SEEDING
-
+        - name: backend
+          image: ghcr.io/maciejwojs/k8s-example-backend:0.0.11
+          ports:
+            - containerPort: 3000
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: backend-secret
+                  key: DATABASE_URL
+            - name: DEVELOPMENT
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-config
+                  key: DEVELOPMENT
+            - name: PERFORM_DATABASE_MIGRATIONS
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-config
+                  key: PERFORM_DATABASE_MIGRATIONS
+            - name: PERFORM_DATABASE_SEEDING
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-config
+                  key: PERFORM_DATABASE_SEEDING
 ---
 apiVersion: v1
 kind: Service
