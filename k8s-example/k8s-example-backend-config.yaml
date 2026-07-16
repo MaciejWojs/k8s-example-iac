@@ -4,6 +4,6 @@ metadata:
   name: backend-config
 data:
   DEVELOPMENT: "true"
-  PERFORM_DATABASE_MIGRATIONS: "true"
-  PERFORM_DATABASE_SEEDING: "true"
+  PERFORM_DATABASE_MIGRATIONS: "false"
+  PERFORM_DATABASE_SEEDING: "false"
   
