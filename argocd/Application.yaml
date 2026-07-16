@@ -17,6 +17,9 @@ spec:
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
+    retry:
+      refresh: true
     automated:
+      enabled: true
       prune: true
       selfHeal: true
