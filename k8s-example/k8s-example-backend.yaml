@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: ghcr.io/maciejwojs/k8s-example-backend:0.0.4
+        image: ghcr.io/maciejwojs/k8s-example-backend:0.0.8
         ports:
         - containerPort: 3000
         env:
