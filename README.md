@@ -81,6 +81,8 @@ Based on example secrets:
 ```bash
 cd k8s-example
 cp k8s-example-backend-secret-example.yaml k8s-example-backend-secret.yaml
+cd -
+cd infrastructure
 cp postgres-secret-example.yaml postgres-secret.yaml
 cd -
 ```
@@ -88,7 +90,9 @@ cd -
 ### 6. Deploy ArgoCD Application
 
 ```bash
-kubectl apply -f argocd/Application.yaml
+cd argocd
+kubectl apply -f Application.yaml -f Infrastructure-application.yaml
+cd -
 ```
 
 ### 7. Deploy Secrets
@@ -97,6 +101,8 @@ kubectl apply -f argocd/Application.yaml
 cd k8s-example
 kubectl apply -f namespace.yaml
 kubectl apply -f k8s-example-backend-secret.yaml -n k8s-example
+cd -
+cd infrastructure
 kubectl apply -f postgres-secret.yaml -n k8s-example
 cd -
 ```
