@@ -19,7 +19,7 @@ spec:
             - migrate
             - apply
             - --env
-            - dev
+            - local
             - --url
             - $(DATABASE_URL)
           env:
