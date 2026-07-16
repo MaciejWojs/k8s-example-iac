@@ -12,6 +12,7 @@ spec:
   template:
     spec:
       restartPolicy: Never
+      ttlSecondsAfterFinished: 120
       containers:
         - name: atlas
           image: ghcr.io/maciejwojs/k8s-example-backend:0.0.8
