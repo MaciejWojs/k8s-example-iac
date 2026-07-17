@@ -38,3 +38,9 @@ spec:
                 configMapKeyRef:
                   name: backend-config
                   key: PERFORM_DATABASE_SEEDING
+            # Not used in the seed job, but nessery for environment variables zod validation 
+            - name: PERFORM_DATABASE_MIGRATIONS
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-config
+                  key: PERFORM_DATABASE_MIGRATIONS
