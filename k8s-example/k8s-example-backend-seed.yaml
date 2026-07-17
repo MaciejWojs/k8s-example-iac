@@ -18,7 +18,7 @@ spec:
       ttlSecondsAfterFinished: 120
       containers:
         - name: seed-db
-          image: ghcr.io/maciejwojs/k8s-example-backend:0.0.12
+          image: ghcr.io/maciejwojs/k8s-example-backend:0.0.13
           command: ["bun"]
           args:
             - seed
