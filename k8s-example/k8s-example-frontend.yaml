@@ -15,17 +15,16 @@ spec:
         app: frontend
     spec:
       containers:
-      - name: frontend
-        image: ghcr.io/maciejwojs/k8s-example-frontend:0.0.3
-        ports:
-        - containerPort: 3000
-        env:
-        - name: NUXT_PUBLIC_BASE_URL
-          valueFrom:
-            configMapKeyRef:
-              name: frontend-config
-              key: NUXT_PUBLIC_BASE_URL
-
+        - name: frontend
+          image: ghcr.io/maciejwojs/k8s-example-frontend:0.0.4
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NUXT_PUBLIC_BASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: frontend-config
+                  key: NUXT_PUBLIC_BASE_URL
 ---
 apiVersion: v1
 kind: Service
