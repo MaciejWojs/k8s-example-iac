@@ -1,0 +1,40 @@
+# This job is used to seed the database with initial data. 
+# It runs after the migration job and is also a PreSync hook in ArgoCD. 
+# The job will run the "bun seed" command to populate the database with sample data.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: seed-database
+  namespace: k8s-example
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: Never
+      ttlSecondsAfterFinished: 120
+      containers:
+        - name: seed-db
+          image: ghcr.io/maciejwojs/k8s-example-backend:0.0.12
+          command: ["bun"]
+          args:
+            - seed
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: backend-secret
+                  key: DATABASE_URL
+            - name: DEVELOPMENT
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-config
+                  key: DEVELOPMENT
+            - name: PERFORM_DATABASE_SEEDING
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-config
+                  key: PERFORM_DATABASE_SEEDING
