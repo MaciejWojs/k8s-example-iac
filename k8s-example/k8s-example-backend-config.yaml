@@ -4,6 +4,7 @@ metadata:
   name: backend-config
 data:
   DEVELOPMENT: "true"
+  #! EXTERNAL JOB does migrations and seeding, so we don't want to do it in the backend container
   PERFORM_DATABASE_MIGRATIONS: "false"
-  PERFORM_DATABASE_SEEDING: "true"
+  PERFORM_DATABASE_SEEDING: "false"
   
