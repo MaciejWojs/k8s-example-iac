@@ -3,6 +3,8 @@ kind: ConfigMap
 metadata:
   name: backend-config
   namespace: k8s-example
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
 data:
   DEVELOPMENT: "true"
   #! EXTERNAL JOB does migrations and seeding, so we don't want to do it in the backend container
