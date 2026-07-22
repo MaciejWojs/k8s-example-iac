@@ -11,6 +11,7 @@ spec:
     path: k8s-example
     directory:  
       exclude: '*secret-example*.yaml'
+      recurse: true
   destination:
     server: https://kubernetes.default.svc
     namespace: k8s-example
