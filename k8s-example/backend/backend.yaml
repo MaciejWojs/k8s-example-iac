@@ -22,7 +22,7 @@ spec:
       serviceAccountName: backend-sa
       containers:
         - name: backend
-          image: ghcr.io/maciejwojs/k8s-example-backend:0.0.16-vault-debug
+          image: ghcr.io/maciejwojs/k8s-example-backend:0.0.16-log-read-secrets
           ports:
             - containerPort: 3000
           env:
