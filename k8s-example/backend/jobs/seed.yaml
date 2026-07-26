@@ -41,3 +41,5 @@ spec:
                 configMapKeyRef:
                   name: seed-config
                   key: PERFORM_DATABASE_MIGRATIONS
+            - name: USE_VAULT #! Temp fix, because the seed job is not using vault (for now), but the env variables zod validation requires it to be present)
+              value: "false"
