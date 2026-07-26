@@ -33,26 +33,6 @@ spec:
           ports:
             - containerPort: 3000
           env:
-            - name: DATABASE_URL
-              valueFrom:
-                secretKeyRef:
-                  name: backend-secret
-                  key: DATABASE_URL
-            - name: DEVELOPMENT
-              valueFrom:
-                configMapKeyRef:
-                  name: backend-config
-                  key: DEVELOPMENT
-            - name: PERFORM_DATABASE_MIGRATIONS
-              valueFrom:
-                configMapKeyRef:
-                  name: backend-config
-                  key: PERFORM_DATABASE_MIGRATIONS
-            - name: PERFORM_DATABASE_SEEDING
-              valueFrom:
-                configMapKeyRef:
-                  name: backend-config
-                  key: PERFORM_DATABASE_SEEDING
             - name: USE_VAULT
               valueFrom:
                 configMapKeyRef:
