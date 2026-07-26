@@ -23,6 +23,13 @@ spec:
       containers:
         - name: backend
           image: ghcr.io/maciejwojs/k8s-example-backend:0.0.16-log-read-secrets
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
           ports:
             - containerPort: 3000
           env:
