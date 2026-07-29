@@ -1,6 +1,8 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "-10"
   name: k8s-example-infrastructure
   namespace: argocd
 spec:
@@ -9,22 +11,21 @@ spec:
     - repoURL: https://cloudnative-pg.github.io/charts
       chart: cloudnative-pg
       targetRevision: 0.25.0
-    #   helm:
-    #     valueFiles:
-    #       - $values/cloudnative-pg/values.yaml
 
-    # - repoURL: https://github.com/MaciejWojs/k8s-example-iac.git
-    #   targetRevision: HEAD
-    #   path: cloudnative-pg
-    #   ref: values
+    - repoURL: https://github.com/MaciejWojs/k8s-example-iac.git
+      targetRevision: HEAD
+      path: infrastructure/postgres
+      directory:
+        recurse: true
 
   destination:
     server: https://kubernetes.default.svc
     namespace: k8s-example
-    
+
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
+      - ServerSideApply=true
     retry:
       refresh: true
     automated:

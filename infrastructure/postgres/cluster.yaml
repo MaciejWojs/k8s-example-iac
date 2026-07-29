@@ -2,6 +2,8 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: cluster-example
+  annotations:
+    argocd.argoproj.io/sync-wave: "10"
 spec:
   instances: 2
   imageName: ghcr.io/cloudnative-pg/postgresql:18.4-standard-trixie
