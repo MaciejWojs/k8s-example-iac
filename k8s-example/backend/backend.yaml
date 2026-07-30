@@ -32,27 +32,9 @@ spec:
               memory: "512Mi"
           ports:
             - containerPort: 3000
-          env:
-            - name: USE_VAULT
-              valueFrom:
-                configMapKeyRef:
-                  name: backend-config
-                  key: USE_VAULT
-            - name: VAULT_ADDR
-              valueFrom:
-                configMapKeyRef:
-                  name: backend-config
-                  key: VAULT_ADDR
-            - name: VAULT_ROLE
-              valueFrom:
-                configMapKeyRef:
-                  name: backend-config
-                  key: VAULT_ROLE
-            - name: VAULT_SECRET_PATH
-              valueFrom:
-                configMapKeyRef:
-                  name: backend-config
-                  key: VAULT_SECRET_PATH
+          envFrom:
+            - configMapRef:
+                name: backend-config
 ---
 apiVersion: v1
 kind: Service
