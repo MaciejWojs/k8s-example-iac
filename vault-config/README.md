@@ -6,6 +6,7 @@ ArgoCD applications (sync waves):
 
 | App | Wave | Purpose |
 |-----|------|---------|
+| `k8s-example-cert-manager` | -25 | TLS for VCO webhooks (required on Kind) |
 | `k8s-example-vault-config-operator` | -20 | VCO controller |
 | `k8s-example-vault` | -15 | Vault server (dev) + Agent Injector |
 | `k8s-example-vault-config` | -8 | `Policy` + `KubernetesAuthEngineRole` CRs |
@@ -110,9 +111,9 @@ Sync `k8s-example` in ArgoCD (or wait for auto-sync). Order at runtime:
 | Migrate pod without `/vault/secrets/database.env` | Injector enabled (`vault/values.yaml`), role `migrate`, secret `secret/migrate` |
 | Backend exits on Vault init | `vault kv get secret/myapp`, role `myapp`, SA `backend-sa` |
 | Seed job fails | `secret/seed` keys match [backend env schema](https://github.com/MaciejWojs/k8s-example-backend) (`DATABASE_URL`, `DEVELOPMENT`, …) |
+| `ServiceMonitor` SyncFailed on operator | Set `enableMonitoring: false` in `vault-config-operator/values.yaml` |
+| `webhook-server-cert` not found / webhook connection refused | Sync **`k8s-example-cert-manager`** first; set `enableCertManager: true` in operator values (vanilla K8s, not OpenShift) |
 | Policy CR not ready | Run `bootstrap.sh`; operator logs in `vault-config-operator` |
-| `Policy` CRD not found / SyncFailed on vault-config | Sync **`k8s-example-vault-config-operator`** first; set `enableMonitoring: false` (no Prometheus on Kind) |
-| `ServiceMonitor` SyncFailed on operator | Same — disable monitoring in `vault-config-operator/values.yaml`, hard-refresh operator app |
 
 ## Changing policies or roles
 

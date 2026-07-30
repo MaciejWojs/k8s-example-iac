@@ -140,4 +140,4 @@ Vault server is deployed with ArgoCD (`argocd/apps/Vault.yaml`). ACL policies an
 - one-time cluster bootstrap (`vault-config/bootstrap/bootstrap.sh`)
 - **manual** `vault kv put` for `secret/myapp`, `secret/migrate`, and `secret/seed`
 
-Register the extra ArgoCD applications from `argocd/apps/` (`VaultConfigOperator.yaml`, `VaultConfig.yaml`) together with the existing apps.
+Register the extra ArgoCD applications from `argocd/apps/` (`CertManager.yaml`, `VaultConfigOperator.yaml`, `VaultConfig.yaml`) together with the existing apps. On a fresh cluster, wait until **cert-manager** and **vault-config-operator** are Healthy before syncing **vault-config**.
