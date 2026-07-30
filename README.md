@@ -132,3 +132,12 @@ Configuration values (like image tags, replica counts, and environment variables
 ## Secrets Management
 
 Note that the secrets defined in this repository are for example purposes only. You must manually apply the necessary secrets to your target Kubernetes cluster before deploying the application.
+
+## HashiCorp Vault (policies & roles via GitOps)
+
+Vault server is deployed with ArgoCD (`argocd/apps/Vault.yaml`). ACL policies and Kubernetes auth roles for the backend, migrate, and seed workloads are managed with **Vault Config Operator** — see **[vault-config/README.md](vault-config/README.md)** for:
+
+- one-time cluster bootstrap (`vault-config/bootstrap/bootstrap.sh`)
+- **manual** `vault kv put` for `secret/myapp`, `secret/migrate`, and `secret/seed`
+
+Register the extra ArgoCD applications from `argocd/apps/` (`VaultConfigOperator.yaml`, `VaultConfig.yaml`) together with the existing apps.

@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: k8s-example-vault-config
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-8"
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/MaciejWojs/k8s-example-iac.git
+    targetRevision: HEAD
+    path: vault-config
+    directory:
+      recurse: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: vault-admin
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      refresh: true
+    automated:
+      enabled: true
+      prune: true
+      selfHeal: true

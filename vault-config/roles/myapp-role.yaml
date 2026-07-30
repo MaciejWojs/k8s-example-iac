@@ -1,0 +1,22 @@
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: KubernetesAuthEngineRole
+metadata:
+  name: myapp
+  namespace: vault-admin
+  annotations:
+    argocd.argoproj.io/sync-wave: "-4"
+spec:
+  authentication:
+    path: kubernetes
+    role: policy-admin
+    serviceAccount:
+      name: vault-config-admin
+  path: kubernetes
+  name: myapp
+  policies:
+    - myapp
+  targetNamespaces:
+    targetNamespaces:
+      - k8s-example
+  targetServiceAccounts:
+    - backend-sa

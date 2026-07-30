@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: k8s-example-vault-config-operator
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-20"
+spec:
+  project: default
+  sources:
+    - repoURL: https://redhat-cop.github.io/vault-config-operator
+      chart: vault-config-operator
+      targetRevision: v0.8.51
+      helm:
+        valueFiles:
+          - $values/vault-config-operator/values.yaml
+    - repoURL: https://github.com/MaciejWojs/k8s-example-iac.git
+      targetRevision: HEAD
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: vault-config-operator
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+    retry:
+      refresh: true
+    automated:
+      enabled: true
+      prune: true
+      selfHeal: true
