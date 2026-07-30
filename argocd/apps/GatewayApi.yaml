@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: k8s-example-gateway-api
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-25"
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/nginx/nginx-gateway-fabric
+    targetRevision: v2.6.7
+    path: config/crd/gateway-api/standard
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
+    retry:
+      refresh: true
+    automated:
+      enabled: true
+      prune: false
+      selfHeal: true

@@ -1,0 +1,15 @@
+# Kind: map host ports 80/443 (see kind-config.yaml extraPortMappings).
+nginx:
+  container:
+    hostPorts:
+      - port: 80
+        containerPort: 80
+      - port: 443
+        containerPort: 443
+  pod:
+    nodeSelector:
+      ingress-ready: "true"
+    tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists
+        effect: NoSchedule
