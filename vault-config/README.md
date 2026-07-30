@@ -110,7 +110,9 @@ Sync `k8s-example` in ArgoCD (or wait for auto-sync). Order at runtime:
 | Migrate pod without `/vault/secrets/database.env` | Injector enabled (`vault/values.yaml`), role `migrate`, secret `secret/migrate` |
 | Backend exits on Vault init | `vault kv get secret/myapp`, role `myapp`, SA `backend-sa` |
 | Seed job fails | `secret/seed` keys match [backend env schema](https://github.com/MaciejWojs/k8s-example-backend) (`DATABASE_URL`, `DEVELOPMENT`, …) |
-| Policy CR not ready | Run `bootstrap.sh`; `kubectl logs -n vault-config-operator deploy/vault-config-operator` |
+| Policy CR not ready | Run `bootstrap.sh`; operator logs in `vault-config-operator` |
+| `Policy` CRD not found / SyncFailed on vault-config | Sync **`k8s-example-vault-config-operator`** first; set `enableMonitoring: false` (no Prometheus on Kind) |
+| `ServiceMonitor` SyncFailed on operator | Same — disable monitoring in `vault-config-operator/values.yaml`, hard-refresh operator app |
 
 ## Changing policies or roles
 
