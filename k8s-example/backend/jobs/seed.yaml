@@ -1,6 +1,4 @@
-# This job is used to seed the database with initial data. 
-# It runs after the migration job and is also a PreSync hook in ArgoCD. 
-# The job will run the "bun seed" command to populate the database with sample data.
+# DATABASE_URL: vault kv put secret/seed DATABASE_URL='...'
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -14,6 +12,7 @@ spec:
   backoffLimit: 3
   template:
     spec:
+      serviceAccountName: seed-sa
       restartPolicy: Never
       ttlSecondsAfterFinished: 120
       containers:
@@ -22,24 +21,6 @@ spec:
           command: ["bun"]
           args:
             - seed
-          env:
-            - name: DATABASE_URL
-              valueFrom:
-                secretKeyRef:
-                  name: backend-secret
-                  key: DATABASE_URL
-            - name: DEVELOPMENT
-              valueFrom:
-                configMapKeyRef:
-                  name: seed-config
-                  key: DEVELOPMENT
-            - name: PERFORM_DATABASE_SEEDING
-              value: "true"
-            # Not used in the seed job, but nessery for environment variables zod validation 
-            - name: PERFORM_DATABASE_MIGRATIONS
-              valueFrom:
-                configMapKeyRef:
-                  name: seed-config
-                  key: PERFORM_DATABASE_MIGRATIONS
-            - name: USE_VAULT #! Temp fix, because the seed job is not using vault (for now), but the env variables zod validation requires it to be present)
-              value: "false"
+          envFrom:
+            - configMapRef:
+                name: seed-config

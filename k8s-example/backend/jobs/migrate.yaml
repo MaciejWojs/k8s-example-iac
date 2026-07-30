@@ -1,6 +1,5 @@
-# This job is used to run the database migrations before the application is deployed. 
-# It is configured to run as a PreSync hook in ArgoCD, ensuring that the migrations are applied before the application is updated. 
-# The database connection URL is retrieved from a Kubernetes secret named 'backend-secret'.
+# DATABASE_URL: vault kv put secret/migrate DATABASE_URL='...'
+# Atlas runs directly; Vault Agent Injector mounts credentials before the container starts.
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -13,23 +12,27 @@ metadata:
 spec:
   backoffLimit: 3
   template:
+    metadata:
+      annotations:
+        vault.hashicorp.com/agent-inject: "true"
+        vault.hashicorp.com/agent-pre-populate-only: "true"
+        vault.hashicorp.com/service: "http://k8s-example-vault.vault.svc.cluster.local:8200"
+        vault.hashicorp.com/role: "migrate"
+        vault.hashicorp.com/agent-inject-secret-database.env: "secret/data/migrate"
+        vault.hashicorp.com/agent-inject-template-database.env: |
+          {{- with secret "secret/data/migrate" -}}
+          export DATABASE_URL="{{ .Data.data.DATABASE_URL }}"
+          {{- end }}
     spec:
+      serviceAccountName: migrate-sa
       restartPolicy: Never
       ttlSecondsAfterFinished: 120
       containers:
         - name: atlas
           image: ghcr.io/maciejwojs/k8s-example-backend:0.0.20
-          command: ["atlas"]
+          workingDir: /app
+          command: ["/bin/sh", "-ec"]
           args:
-            - migrate
-            - apply
-            - --env
-            - local
-            - --url
-            - $(DATABASE_URL)?sslmode=disable
-          env:
-            - name: DATABASE_URL
-              valueFrom:
-                secretKeyRef:
-                  name: backend-secret
-                  key: DATABASE_URL
+            - |
+              . /vault/secrets/database.env
+              exec atlas migrate apply --env local --url "${DATABASE_URL}?sslmode=disable"
