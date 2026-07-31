@@ -27,7 +27,7 @@ spec:
       serviceAccountName: backend-sa
       containers:
         - name: backend
-          image: ghcr.io/maciejwojs/k8s-example-backend:0.0.26
+          image: ghcr.io/maciejwojs/k8s-example-backend:0.0.27
           resources:
             requests:
               cpu: "100m"
