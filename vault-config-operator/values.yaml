@@ -1,6 +1,0 @@
-env:
-  - name: VAULT_ADDR
-    value: http://k8s-example-vault.vault.svc.cluster.local:8200
-
-enableCertManager: true
-enableMonitoring: false
