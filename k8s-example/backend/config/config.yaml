@@ -5,6 +5,6 @@ metadata:
   namespace: k8s-example
 data:
   USE_VAULT: "true"
-  VAULT_SECRET_PATH: /vault/secrets/database.env
+  VAULT_SECRET_PATH: /vault/secrets/database
   VAULT_SECRETS_MODE: injector
   
