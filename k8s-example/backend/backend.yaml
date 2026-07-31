@@ -21,6 +21,7 @@ spec:
         vault.hashicorp.com/role: "myapp"
         vault.hashicorp.com/service: "http://k8s-example-vault.vault.svc.cluster.local:8200"
         vault.hashicorp.com/agent-inject-secret-database: "secret/data/myapp"
+        vault.hashicorp.com/agent-inject-default-template: json
       labels:
         app: backend
     spec:
