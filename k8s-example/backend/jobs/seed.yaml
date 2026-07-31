@@ -14,6 +14,7 @@ spec:
     metadata:
       annotations:
         vault.hashicorp.com/agent-inject: "true"
+        vault.hashicorp.com/agent-init-first: "true"
         vault.hashicorp.com/agent-pre-populate-only: "true"
         vault.hashicorp.com/role: "seed"
         vault.hashicorp.com/service: "http://k8s-example-vault.vault.svc.cluster.local:8200"

@@ -18,6 +18,7 @@ spec:
     metadata:
       annotations:
         vault.hashicorp.com/agent-inject: "true"
+        vault.hashicorp.com/agent-init-first: "true"
         vault.hashicorp.com/role: "myapp"
         vault.hashicorp.com/service: "http://k8s-example-vault.vault.svc.cluster.local:8200"
         vault.hashicorp.com/agent-inject-secret-database: "secret/data/myapp"
