@@ -16,7 +16,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
     argocd.argoproj.io/hook: PreSync
-    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation,HookSucceeded,HookFailed
 data:
   USE_VAULT: "true"
   VAULT_SECRET_PATH: /vault/secrets/database
