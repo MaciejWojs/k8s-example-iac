@@ -29,7 +29,7 @@ spec:
       ttlSecondsAfterFinished: 120
       containers:
         - name: atlas
-          image: ghcr.io/maciejwojs/k8s-example-backend:0.0.27
+          image: ghcr.io/maciejwojs/k8s-example-backend:0.0.28
           workingDir: /app
           command: ["/bin/sh", "-ec"]
           args:
